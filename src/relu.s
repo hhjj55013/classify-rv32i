@@ -23,13 +23,27 @@
 #   Result: [ 0, 0, 3,  0, 5]
 # ==============================================================================
 relu:
-    li t0, 1             
-    blt a1, t0, error     
-    li t1, 0             
+    li      t0, 1             
+    blt     a1, t0, error     
+    li      t1, 0
+
+    # TODO: Add your own implementation
+    mv      t0, a0                  # t0 = integer adress
+    li      t1, 1                   # t1 = 1 (i)
 
 loop_start:
-    # TODO: Add your own implementation
+    blt     a1, t1, done            # if( a1 < i ) finish loop
+    lw      t2, 0(t0)               # t2 = MEM[t0]
+    bge     t2, x0, continue        # if t2>=0 continue loop
+    sw      x0, 0(t0)               # MEM[t0] = 0
+continue:
+    addi    t1, t1, 1               # t1++
+    addi    t0, t0, 4               # t0 += 4 (To next int)
+    j       loop_start
 
 error:
     li a0, 36          
-    j exit          
+    j exit
+
+done:
+    jr ra

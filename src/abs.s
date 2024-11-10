@@ -18,11 +18,14 @@ abs:
     # Prologue
     ebreak
     # Load number from memory
-    lw t0 0(a0)
-    bge t0, zero, done
+    lw      t0, 0(a0)
+    bge     t0, x0, done
 
     # TODO: Add your own implementation
+    mv      t1, x0                  # t1 = 0
+    bge     t0, t1, done            # If t0 >= 0, branch to done
+    neg     t0, t0                  # t0 = -t0
 
 done:
-    # Epilogue
-    jr ra
+    sw      t0, 0(a0)               # t1 = abs(x)
+    jr      ra
